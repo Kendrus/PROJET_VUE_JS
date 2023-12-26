@@ -11,19 +11,14 @@
       integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
       crossorigin="anonymous"
     />
-    <style>
-      .display-1 {
-        background-color: red;
-      }
-    </style>
   </head>
   <body>
     <div id="app">
       <div class="container">
         <div class="row">
           <p class="jumbotron">
-            login : <input type="text" v-model="affichage" /> Vous etes connecte
-            en tant que {{user}}
+            login : <input type="text" v-model="user" /> Vous etes connecte en
+            tant que {{user}}
           </p>
         </div>
         <h1 class="display-4" v-if="commandes.length > 0">
@@ -53,7 +48,7 @@
     </div>
     <script>
       Vue.component("fiche-produit", {
-        template: '<p class="jumbotron">demo</p>',
+        template:'<p class="jumbotron">demo</p>',
       });
       var app = new Vue({
         el: "#app",
