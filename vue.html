@@ -21,35 +21,59 @@
             tant que {{user}}
           </p>
         </div>
-        <h1 class="display-4" v-if="commandes.length > 0">
-          PRoduits commandés
-        </h1>
-        <h1 class="display-4" v-else>Pas de produits</h1>
+        <h1 class="display-4">PRoduits commandés</h1>
 
         <!-- <ul>
                     <li v-for="commande in commandes">{{ commande }}</li>
                 </ul> -->
         <div class="row">
-          <fiche-produit v-for="commande in commandes"></fiche-produit>
+          <fiche-produit
+            v-for="commande in commandes"
+            v-bind:nom="commande"
+            role="recap"
+          ></fiche-produit>
         </div>
 
-        <h1 v-bind:class="affichage" class="display-4">produits disponibles</h1>
+        <h1 v-bind:class="affichage">produits disponibles</h1>
         <div class="row">
-          <fiche-produit v-for="produit in produits"></fiche-produit>
-          <div class="col-3" v-for="produit in produits">
+          <fiche-produit
+            v-for="produit in produits"
+            v-bind:nom="produit"
+            text="Commander"
+            v-on:commande-passee="commander"
+            role="commande"
+          ></fiche-produit>
+
+          <!-- <div class="col-3" v-for="produit in produits">
             <p class="jumbotron">
-              {{produit}} <br />
-              <button v-on:click="commander(produit)">commander</button>
+              {{ produit }} <br />
+              <button v-on:click="commander(produit)">Commander</button>
             </p>
-          </div>
+          </div> -->
         </div>
       </div>
       {{user}}
     </div>
     <script>
       Vue.component("fiche-produit", {
-        template:'<p class="jumbotron">demo</p>',
+        template: ` <div class="col-3"> <p class="jumbotron"> {{ nom }} <br>
+                    <div v-if="role =='commande'">
+                        <button v-on:click="passer_commande(nom)" >{{text}}</button>
+                    </div>
+                    <div v-else >
+                        pas de commande
+                    </div>
+                    </p> </div>`,
+
+        props: ["nom", "role", "text"],
+        methods: {
+          passer_commande: function (produit) {
+            this.$emit("commande-passee", produit);
+            console.log("component", produit);
+          },
+        },
       });
+
       var app = new Vue({
         el: "#app",
         data: {
@@ -60,7 +84,7 @@
         },
         methods: {
           commander: function (produit) {
-            // console.log(produit);
+            console.log(produit);
             this.commandes.push(produit);
           },
         },
